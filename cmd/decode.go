@@ -9,6 +9,7 @@ import (
 	"github.com/MircoT/go-dev-toys/pkg/encdec"
 	"github.com/MircoT/go-dev-toys/pkg/encdec/base64"
 	"github.com/MircoT/go-dev-toys/pkg/encdec/html"
+	"github.com/MircoT/go-dev-toys/pkg/encdec/jwt"
 	"github.com/MircoT/go-dev-toys/pkg/encdec/url"
 	"github.com/spf13/cobra"
 )
@@ -39,6 +40,8 @@ Available formats: base64, html, url`,
 			result, err = html.Decode(inputString)
 		case "url", "URL":
 			result, err = url.Decode(inputString)
+		case "jwt", "JWT":
+			result, err = jwt.Decode(inputString)
 		}
 
 		if err != nil {

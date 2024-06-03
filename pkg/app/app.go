@@ -15,7 +15,7 @@ const (
 var (
 	sections    = []string{"Encode/Decode"}
 	subSections = map[string][]string{
-		"Encode/Decode": {"Base64", "HTML", "URL"},
+		"Encode/Decode": {"Base64", "HTML", "URL", "JWT"},
 	}
 )
 
@@ -43,6 +43,10 @@ func Run() error {
 			case "URL":
 				tabSubSections[subSection].Append(
 					container.NewTabItem(tab, objects.MakeEncDec(objects.ENCDECURL)),
+				)
+			case "JWT":
+				tabSubSections[subSection].Append(
+					container.NewTabItem(tab, objects.MakeEncDecJWT()),
 				)
 			default:
 				tabSubSections[subSection].Append(container.NewTabItem(tab, widget.NewLabel(tab)))

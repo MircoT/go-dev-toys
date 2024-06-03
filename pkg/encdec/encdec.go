@@ -21,6 +21,8 @@ func CheckArgs(cmd *cobra.Command, args []string) error {
 		break
 	case "URL", "url":
 		break
+	case "JWT", "jwt":
+		break
 	default:
 		return fmt.Errorf("invalid format: %s", args[0])
 	}

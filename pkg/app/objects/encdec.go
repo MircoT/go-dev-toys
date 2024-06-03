@@ -7,6 +7,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/MircoT/go-dev-toys/pkg/encdec/base64"
 	"github.com/MircoT/go-dev-toys/pkg/encdec/html"
+	"github.com/MircoT/go-dev-toys/pkg/encdec/jwt"
 	"github.com/MircoT/go-dev-toys/pkg/encdec/url"
 )
 
@@ -136,6 +137,58 @@ func MakeEncDec(target encDecTarget) *fyne.Container {
 	encDecObj := container.New(layout.NewVBoxLayout(),
 		widget.NewLabel("Decoded"), textInput,
 		widget.NewLabel("Encoded"), textOutput,
+	)
+
+	return encDecObj
+}
+
+func MakeEncDecJWT() *fyne.Container {
+	textInput := widget.NewEntry()
+
+	textInput.SetPlaceHolder("JWT")
+	textInput.SetMinRowsVisible(encDecMinInputNumRows)
+
+	textInput.MultiLine = true
+	textInput.TextStyle.Monospace = true
+	textInput.Wrapping = fyne.TextWrapBreak
+
+	textOutput := widget.NewEntry()
+
+	textInput.SetPlaceHolder("")
+	textOutput.SetMinRowsVisible(encDecMinInputNumRows + encDecMinInputNumRows)
+
+	textOutput.MultiLine = true
+	textOutput.TextStyle.Monospace = true
+	textOutput.Wrapping = fyne.TextWrapBreak
+
+	textInput.OnSubmitted = func(newString string) {
+		var (
+			result string
+			err    error
+		)
+
+		result, err = jwt.Decode(newString)
+
+		if err == nil {
+			textOutput.SetText(result)
+		}
+	}
+	textInput.OnChanged = func(newString string) {
+		var (
+			result string
+			err    error
+		)
+
+		result, err = jwt.Decode(newString)
+
+		if err == nil {
+			textOutput.SetText(result)
+		}
+	}
+
+	encDecObj := container.New(layout.NewVBoxLayout(),
+		widget.NewLabel("Encoded"), textInput,
+		widget.NewLabel("Decoded"), textOutput,
 	)
 
 	return encDecObj
