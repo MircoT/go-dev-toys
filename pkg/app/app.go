@@ -4,9 +4,8 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	"github.com/MircoT/go-dev-toys/pkg/encdec/base64"
+	"github.com/MircoT/go-dev-toys/pkg/app/objects"
 )
 
 const (
@@ -24,51 +23,6 @@ func Run() error {
 	a := app.New()
 	w := a.NewWindow(appName)
 
-	// var data = []string{"a", "string", "list"}
-	// list := widget.NewList(
-	// 	func() int {
-	// 		return len(data)
-	// 	},
-	// 	func() fyne.CanvasObject {
-	// 		return widget.NewLabel("template")
-	// 	},
-	// 	func(i widget.ListItemID, o fyne.CanvasObject) {
-	// 		o.(*widget.Label).SetText(data[i])
-	// 	})
-
-	b64Input := widget.NewEntry()
-	b64Input.SetPlaceHolder("source text")
-	b64Input.MultiLine = true
-	b64Input.Wrapping = fyne.TextWrapBreak
-
-	b64Output := widget.NewEntry()
-	b64Output.SetPlaceHolder("encoded text")
-	b64Output.MultiLine = true
-	b64Output.Wrapping = fyne.TextWrapBreak
-
-	b64Input.OnSubmitted = func(newString string) {
-		result, _ := base64.Encode(newString)
-		b64Output.SetText(result)
-	}
-	b64Input.OnChanged = func(newString string) {
-		result, _ := base64.Encode(newString)
-		b64Output.SetText(result)
-	}
-
-	b64Output.OnSubmitted = func(newString string) {
-		result, _ := base64.Decode(newString)
-		b64Input.SetText(result)
-	}
-	b64Output.OnChanged = func(newString string) {
-		result, _ := base64.Decode(newString)
-		b64Input.SetText(result)
-	}
-
-	encDecB64 := container.New(layout.NewVBoxLayout(),
-		widget.NewLabel("Decoded"), b64Input,
-		widget.NewLabel("Encoded"), b64Output,
-	)
-
 	tabSections := container.NewAppTabs()
 	tabSubSections := make(map[string]*container.AppTabs)
 
@@ -79,7 +33,17 @@ func Run() error {
 		for _, tab := range tabs {
 			switch tab {
 			case "Base64":
-				tabSubSections[subSection].Append(container.NewTabItem(tab, encDecB64))
+				tabSubSections[subSection].Append(
+					container.NewTabItem(tab, objects.MakeEncDec(objects.ENCDECB64)),
+				)
+			case "HTML":
+				tabSubSections[subSection].Append(
+					container.NewTabItem(tab, objects.MakeEncDec(objects.ENCDECHTML)),
+				)
+			case "URL":
+				tabSubSections[subSection].Append(
+					container.NewTabItem(tab, objects.MakeEncDec(objects.ENCDECURL)),
+				)
 			default:
 				tabSubSections[subSection].Append(container.NewTabItem(tab, widget.NewLabel(tab)))
 			}
