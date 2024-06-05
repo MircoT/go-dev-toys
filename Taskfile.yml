@@ -1,0 +1,10 @@
+version: 3
+
+tasks:
+  build-with-app:
+    cmds:
+      - go build -v -tags=app ./...
+
+  build:
+    cmds:
+      - go build -v ./...

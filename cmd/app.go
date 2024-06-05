@@ -1,3 +1,5 @@
+//go:build app
+
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 */
