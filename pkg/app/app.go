@@ -13,9 +13,10 @@ const (
 )
 
 var (
-	sections    = []string{"Encode/Decode"}
+	sections    = []string{"Compressed text", "Encode/Decode"}
 	subSections = map[string][]string{
-		"Encode/Decode": {"Base64", "HTML", "URL", "JWT"},
+		"Encode/Decode":   {"Base64", "HTML", "URL", "JWT"},
+		"Compressed text": {"Zip", "Gz", "Zstd"},
 	}
 )
 
@@ -47,6 +48,10 @@ func Run() error {
 			case "JWT":
 				tabSubSections[subSection].Append(
 					container.NewTabItem(tab, objects.MakeEncDecJWT()),
+				)
+			case "Zstd":
+				tabSubSections[subSection].Append(
+					container.NewTabItem(tab, objects.MakeCText(w)),
 				)
 			default:
 				tabSubSections[subSection].Append(container.NewTabItem(tab, widget.NewLabel(tab)))
