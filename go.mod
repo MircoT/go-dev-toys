@@ -5,6 +5,7 @@ go 1.22
 require (
 	fyne.io/fyne/v2 v2.4.5
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/h2non/filetype v1.1.3
 	github.com/klauspost/compress v1.17.8
 	github.com/spf13/cobra v1.8.0
 )

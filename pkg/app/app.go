@@ -51,7 +51,7 @@ func Run() error {
 				tabSubSections[subSection].Append(
 					container.NewTabItem(tab, objects.MakeEncDecJWT()),
 				)
-			case "Zstd":
+			case "Zip", "Gz", "Zstd":
 				tabSubSections[subSection].Append(
 					container.NewTabItem(tab, objects.MakeCText(w)),
 				)

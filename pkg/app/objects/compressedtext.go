@@ -3,6 +3,7 @@
 package objects
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 
@@ -11,6 +12,9 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	"github.com/MircoT/go-dev-toys/pkg/dectext"
+	"github.com/MircoT/go-dev-toys/pkg/dectext/gz"
+	"github.com/MircoT/go-dev-toys/pkg/dectext/zip"
 	"github.com/MircoT/go-dev-toys/pkg/dectext/zstd"
 )
 
@@ -32,12 +36,30 @@ func MakeCText(parent fyne.Window) *fyne.Container {
 				slog.Error(err.Error())
 			}
 
-			data, err := os.ReadFile(uri.URI().Path())
+			targetFile := uri.URI().Path()
+
+			typeStr, err := dectext.GetCompressType(targetFile)
+			if err != nil {
+				slog.Error(fmt.Errorf("cannot get file type of '%s': %w ", targetFile, err).Error())
+			}
+
+			data, err := os.ReadFile(targetFile)
 			if err != nil {
 				slog.Error(err.Error())
 			}
 
-			result, err := zstd.Decompress(data)
+			var result string
+
+			switch typeStr {
+			case "zstd", "zst":
+				result, err = zstd.Decompress(data)
+			case "zip":
+				result, err = zip.Decompress(data)
+			case "gz", "gzip":
+				result, err = gz.Decompress(data)
+			default:
+				slog.Error(fmt.Errorf("%s is not a valid format", typeStr).Error())
+			}
 
 			if err == nil {
 				textOutput.SetText(result)

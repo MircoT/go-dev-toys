@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/MircoT/go-dev-toys/pkg/dectext"
+	"github.com/MircoT/go-dev-toys/pkg/dectext/gz"
+	"github.com/MircoT/go-dev-toys/pkg/dectext/zip"
 	"github.com/MircoT/go-dev-toys/pkg/dectext/zstd"
 	"github.com/spf13/cobra"
 )
@@ -25,14 +28,34 @@ var decompressCmd = &cobra.Command{
 
 		targetFile, args := args[0], args[1:]
 
+		typeStr, err := dectext.GetCompressType(targetFile)
+		if err != nil {
+			return fmt.Errorf("cannot get file type: %w", targetFile, err)
+		}
+
 		inputString, err = os.ReadFile(targetFile)
 		if err != nil {
 			return fmt.Errorf("cannot read file %s: %w", targetFile, err)
 		}
 
-		result, err = zstd.Decompress(inputString)
-		if err != nil {
-			return fmt.Errorf("cannot decompress text: %w", err)
+		switch typeStr {
+		case "zstd", "zst":
+			result, err = zstd.Decompress(inputString)
+			if err != nil {
+				return fmt.Errorf("cannot decompress text: %w", err)
+			}
+		case "zip":
+			result, err = zip.Decompress(inputString)
+			if err != nil {
+				return fmt.Errorf("cannot decompress text: %w", err)
+			}
+		case "gz", "gzip":
+			result, err = gz.Decompress(inputString)
+			if err != nil {
+				return fmt.Errorf("cannot decompress text: %w", err)
+			}
+		default:
+			return fmt.Errorf("'%s' is not a supported format", typeStr)
 		}
 
 		fmt.Println(result)
