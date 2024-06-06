@@ -1,6 +1,13 @@
 version: 3
 
 tasks:
+  default:
+    cmds:
+      - task: "{{.TARGET_TASK}}"
+    vars:
+      TARGET_TASK:
+        sh: gum choose run-app build build-with-app
+
   build-with-app:
     cmds:
       - go build -v -tags=app ./...
