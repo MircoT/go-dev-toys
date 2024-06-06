@@ -8,3 +8,7 @@ tasks:
   build:
     cmds:
       - go build -v ./...
+
+  run-app:
+    cmds:
+      - go run --tags=app ./main.go app
