@@ -15,10 +15,11 @@ const (
 )
 
 var (
-	sections    = []string{"Compressed text", "Encode/Decode"}
+	sections    = []string{"Compressed text", "Encode/Decode", "Formatting"}
 	subSections = map[string][]string{
 		"Encode/Decode":   {"Base64", "HTML", "URL", "JWT"},
 		"Compressed text": {"Zip", "Gz", "Zstd"},
+		"Formatting":      {"JSON"},
 	}
 )
 
@@ -54,6 +55,10 @@ func Run() error {
 			case "Zip", "Gz", "Zstd":
 				tabSubSections[subSection].Append(
 					container.NewTabItem(tab, objects.MakeCText(w)),
+				)
+			case "JSON":
+				tabSubSections[subSection].Append(
+					container.NewTabItem(tab, objects.MakeFormatText(objects.FORMATJSON)),
 				)
 			default:
 				tabSubSections[subSection].Append(container.NewTabItem(tab, widget.NewLabel(tab)))

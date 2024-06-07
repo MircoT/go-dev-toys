@@ -46,11 +46,11 @@ func MakeEncDec(target encDecTarget) *fyne.Container {
 
 	switch target {
 	case ENCDECB64:
-		textInput.SetPlaceHolder("encoded text")
+		textOutput.SetPlaceHolder("encoded text")
 	case ENCDECHTML:
-		textInput.SetPlaceHolder("encoded HTML")
+		textOutput.SetPlaceHolder("encoded HTML")
 	case ENCDECURL:
-		textInput.SetPlaceHolder("encoded URL")
+		textOutput.SetPlaceHolder("encoded URL")
 	}
 
 	textOutput.MultiLine = true
