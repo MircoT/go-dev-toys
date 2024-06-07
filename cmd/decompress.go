@@ -30,7 +30,7 @@ var decompressCmd = &cobra.Command{
 
 		typeStr, err := dectext.GetCompressType(targetFile)
 		if err != nil {
-			return fmt.Errorf("cannot get file type: %w", targetFile, err)
+			return fmt.Errorf("cannot get file type: %w", err)
 		}
 
 		inputString, err = os.ReadFile(targetFile)
