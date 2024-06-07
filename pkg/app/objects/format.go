@@ -72,8 +72,8 @@ func MakeFormatText(target formatTarget) *fyne.Container {
 	}
 
 	encDecObj := container.New(layout.NewVBoxLayout(),
-		widget.NewLabel("Decoded"), textInput,
-		widget.NewLabel("Encoded"), textOutput,
+		widget.NewLabel("JSON"), textInput,
+		widget.NewLabel("Formatted JSON"), textOutput,
 	)
 
 	return encDecObj
