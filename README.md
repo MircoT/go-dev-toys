@@ -8,3 +8,5 @@ An offline app with developer tools inspired to devtoys.
 
 - **Encode/Decode**: `base64`,`HTML`,`URL`,`JWT`
 - **Compressed text**: `zip`, `gz`, `zstd`
+- **Format**: `JSON`
+- **Convert**: `numbers`
