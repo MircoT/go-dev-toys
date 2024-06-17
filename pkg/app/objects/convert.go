@@ -10,7 +10,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func MakeNumberFormat() *fyne.Container {
+func MakeNumberConverter() *fyne.Container {
 	decimalInput := widget.NewEntry()
 	decimalInput.TextStyle.Monospace = true
 	decimalInput.SetPlaceHolder("decimal number")

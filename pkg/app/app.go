@@ -63,7 +63,7 @@ func Run() error {
 				)
 			case "Numbers":
 				tabSubSections[subSection].Append(
-					container.NewTabItem(tab, objects.MakeNumberFormat()),
+					container.NewTabItem(tab, objects.MakeNumberConverter()),
 				)
 			default:
 				tabSubSections[subSection].Append(container.NewTabItem(tab, widget.NewLabel(tab)))
