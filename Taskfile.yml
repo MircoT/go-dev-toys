@@ -18,4 +18,4 @@ tasks:
 
   run-app:
     cmds:
-      - go run --tags=app ./main.go app
+      - go run --tags=app . app

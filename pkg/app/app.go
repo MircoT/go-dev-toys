@@ -20,7 +20,7 @@ var (
 		"Encode/Decode":   {"Base64", "HTML", "URL", "JWT"},
 		"Compressed text": {"Zip", "Gz", "Zstd"},
 		"Format":          {"JSON"},
-		"Convert":         {"Numbers"},
+		"Convert":         {"Numbers", "Bytes"},
 	}
 )
 
@@ -64,6 +64,10 @@ func Run() error {
 			case "Numbers":
 				tabSubSections[subSection].Append(
 					container.NewTabItem(tab, objects.MakeNumberConverter()),
+				)
+			case "Bytes":
+				tabSubSections[subSection].Append(
+					container.NewTabItem(tab, objects.MakeBytesConverter()),
 				)
 			default:
 				tabSubSections[subSection].Append(container.NewTabItem(tab, widget.NewLabel(tab)))

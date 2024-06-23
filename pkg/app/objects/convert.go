@@ -8,6 +8,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	"github.com/MircoT/go-dev-toys/pkg/convert"
 )
 
 func MakeNumberConverter() *fyne.Container {
@@ -68,4 +69,142 @@ func MakeNumberConverter() *fyne.Container {
 	)
 
 	return formatNumObj
+}
+
+func MakeBytesConverter() *fyne.Container {
+	kbInput := widget.NewEntry()
+	kbInput.TextStyle.Monospace = true
+	kbInput.SetPlaceHolder("kb")
+
+	mbInput := widget.NewEntry()
+	mbInput.TextStyle.Monospace = true
+	mbInput.SetPlaceHolder("mb")
+
+	gbInput := widget.NewEntry()
+	gbInput.TextStyle.Monospace = true
+	gbInput.SetPlaceHolder("gb")
+
+	tbInput := widget.NewEntry()
+	tbInput.TextStyle.Monospace = true
+	tbInput.SetPlaceHolder("tb")
+
+	pbInput := widget.NewEntry()
+	pbInput.TextStyle.Monospace = true
+	pbInput.SetPlaceHolder("pb")
+
+	kibInput := widget.NewEntry()
+	kibInput.TextStyle.Monospace = true
+	kibInput.SetPlaceHolder("kib")
+
+	mibInput := widget.NewEntry()
+	mibInput.TextStyle.Monospace = true
+	mibInput.SetPlaceHolder("mib")
+
+	gibInput := widget.NewEntry()
+	gibInput.TextStyle.Monospace = true
+	gibInput.SetPlaceHolder("gib")
+
+	tibInput := widget.NewEntry()
+	tibInput.TextStyle.Monospace = true
+	tibInput.SetPlaceHolder("tib")
+
+	pibInput := widget.NewEntry()
+	pibInput.TextStyle.Monospace = true
+	pibInput.SetPlaceHolder("pib")
+
+	targetUnit := "kib"
+
+	convertBtn := widget.NewButton("Convert", func() {
+		curString := "0"
+
+		switch targetUnit {
+		case "kb":
+			curString = kbInput.Text
+		case "mb":
+			curString = mbInput.Text
+		case "gb":
+			curString = gbInput.Text
+		case "tb":
+			curString = tbInput.Text
+		case "pb":
+			curString = pbInput.Text
+		case "kib":
+			curString = kibInput.Text
+		case "mib":
+			curString = mibInput.Text
+		case "gib":
+			curString = gibInput.Text
+		case "tib":
+			curString = tibInput.Text
+		case "pib":
+			curString = pibInput.Text
+		}
+
+		uintVal, err := strconv.ParseUint(curString, 10, 0)
+		if err == nil {
+			values, err := convert.Bytes(uintVal, targetUnit)
+			if err == nil {
+				kbInput.SetText(fmt.Sprintf("%0.2f", values.KB))
+				mbInput.SetText(fmt.Sprintf("%0.2f", values.MB))
+				gbInput.SetText(fmt.Sprintf("%0.2f", values.GB))
+				tbInput.SetText(fmt.Sprintf("%0.2f", values.TB))
+				pbInput.SetText(fmt.Sprintf("%0.2f", values.PB))
+				kibInput.SetText(fmt.Sprintf("%0.2f", values.KiB))
+				mibInput.SetText(fmt.Sprintf("%0.2f", values.MiB))
+				gibInput.SetText(fmt.Sprintf("%0.2f", values.GiB))
+				tibInput.SetText(fmt.Sprintf("%0.2f", values.TiB))
+				pibInput.SetText(fmt.Sprintf("%0.2f", values.PiB))
+			}
+		}
+	})
+
+	kbInput.OnChanged = func(newString string) {
+		targetUnit = "kb"
+	}
+	mbInput.OnChanged = func(newString string) {
+		targetUnit = "mb"
+	}
+	gbInput.OnChanged = func(newString string) {
+		targetUnit = "gb"
+	}
+	tbInput.OnChanged = func(newString string) {
+		targetUnit = "tb"
+	}
+	pbInput.OnChanged = func(newString string) {
+		targetUnit = "pb"
+	}
+
+	kibInput.OnChanged = func(newString string) {
+		targetUnit = "kib"
+	}
+	mibInput.OnChanged = func(newString string) {
+		targetUnit = "mib"
+	}
+	gibInput.OnChanged = func(newString string) {
+		targetUnit = "gib"
+	}
+	tibInput.OnChanged = func(newString string) {
+		targetUnit = "tib"
+	}
+	pibInput.OnChanged = func(newString string) {
+		targetUnit = "pib"
+	}
+
+	formatBytesObj := container.New(layout.NewVBoxLayout(),
+		container.NewGridWithColumns(2,
+			widget.NewLabel("KB"), widget.NewLabel("KiB"),
+			kbInput, kibInput,
+			widget.NewLabel("MB"), widget.NewLabel("MiB"),
+			mbInput, mibInput,
+			widget.NewLabel("GB"), widget.NewLabel("GiB"),
+			gbInput, gibInput,
+			widget.NewLabel("TB"), widget.NewLabel("TiB"),
+			tbInput, tibInput,
+			widget.NewLabel("PB"), widget.NewLabel("PiB"),
+			pbInput, pibInput,
+		),
+		convertBtn,
+	)
+
+	return formatBytesObj
 }

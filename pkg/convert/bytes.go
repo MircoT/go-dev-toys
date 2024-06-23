@@ -3,11 +3,8 @@ package convert
 import "fmt"
 
 const (
-	toKiB = 1000.0 / 1024.0
-	toKB  = 1024.0 / 1000.0
-
-	KBV  = 1000
-	KiBV = 1024
+	KBV  float64 = 1000.0
+	KiBV float64 = 1024.0
 )
 
 func isValidUnit(unit string) bool {
@@ -50,33 +47,33 @@ func Bytes(value uint64, unit string) (*ByteValues, error) {
 	switch unit {
 	case "KB", "kb":
 		b.KB = float64(value)
-		b.KiB = float64(value) * toKiB
+		b.KiB = (float64(value) * KBV) / KiBV
 	case "MB", "mb":
 		b.KB = float64(value) * KBV
-		b.KiB = (float64(value) * toKiB) * KiBV
+		b.KiB = (float64(value) * KBV * KBV) / KiBV
 	case "GB", "gb":
 		b.KB = float64(value) * KBV * KBV
-		b.KiB = (float64(value) * toKiB) * KiBV * KiBV
+		b.KiB = (float64(value) * KBV * KBV * KBV) / KiBV
 	case "TB", "tb":
 		b.KB = float64(value) * KBV * KBV * KBV
-		b.KiB = (float64(value) * toKiB) * KiBV * KiBV * KiBV
+		b.KiB = (float64(value) * KBV * KBV * KBV * KBV) / KiBV
 	case "PB", "pb":
 		b.KB = float64(value) * KBV * KBV * KBV * KBV
-		b.KiB = (float64(value) * toKiB) * KiBV * KiBV * KiBV * KiBV
+		b.KiB = (float64(value) * KBV * KBV * KBV * KBV * KBV) / KiBV
 	case "KiB", "kib":
-		b.KB = float64(value) * toKB
+		b.KB = (float64(value) * KiBV) / KBV
 		b.KiB = float64(value)
 	case "MiB", "mib":
-		b.KB = (float64(value) * toKB) * KBV
+		b.KB = (float64(value) * KiBV * KiBV) / KBV
 		b.KiB = float64(value) * KiBV
 	case "GiB", "gib":
-		b.KB = (float64(value) * toKB) * KBV * KBV
+		b.KB = (float64(value) * KiBV * KiBV * KiBV) / KBV
 		b.KiB = float64(value) * KiBV * KiBV
 	case "TiB", "tib":
-		b.KB = (float64(value) * toKB) * KBV * KBV * KBV
+		b.KB = (float64(value) * KiBV * KiBV * KiBV * KiBV) / KBV
 		b.KiB = float64(value) * KiBV * KiBV * KiBV
 	case "PiB", "pib":
-		b.KB = (float64(value) * toKB) * KBV * KBV * KBV * KBV
+		b.KB = (float64(value) * KiBV * KiBV * KiBV * KiBV * KiBV) / KBV
 		b.KiB = float64(value) * KiBV * KiBV * KiBV * KiBV
 	}
 
