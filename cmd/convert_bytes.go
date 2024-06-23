@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/MircoT/go-dev-toys/pkg/convert"
-	"github.com/davecgh/go-spew/spew"
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
 
@@ -38,22 +38,27 @@ var bytesCmd = &cobra.Command{
 			return fmt.Errorf("cannot convert bytes '%s': %w", bytes, err)
 		}
 
-		spew.Dump(res)
-		// data := pterm.TableData{
-		// 	{"Base", "Value"},
-		// 	{"10", fmt.Sprintf("%d", intNum)},
-		// 	{"16", fmt.Sprintf("%x", intNum)},
-		// 	{"8", fmt.Sprintf("%o", intNum)},
-		// 	{"2", fmt.Sprintf("%b", intNum)},
-		// }
+		data := pterm.TableData{
+			{"Unit", "Value"},
+			{"KB", fmt.Sprintf("%0.2f", res.KB)},
+			{"MB", fmt.Sprintf("%0.2f", res.MB)},
+			{"GB", fmt.Sprintf("%0.2f", res.GB)},
+			{"TB", fmt.Sprintf("%0.2f", res.TB)},
+			{"PB", fmt.Sprintf("%0.2f", res.PB)},
+			{"KiB", fmt.Sprintf("%0.2f", res.KiB)},
+			{"MiB", fmt.Sprintf("%0.2f", res.MiB)},
+			{"GiB", fmt.Sprintf("%0.2f", res.GiB)},
+			{"TiB", fmt.Sprintf("%0.2f", res.TiB)},
+			{"PiB", fmt.Sprintf("%0.2f", res.PiB)},
+		}
 
-		// pterm.DefaultTable.
-		// 	WithHasHeader().
-		// 	WithRowSeparator("-").
-		// 	WithHeaderRowSeparator("-").
-		// 	WithRightAlignment().
-		// 	WithData(data).
-		// 	Render()
+		pterm.DefaultTable.
+			WithHasHeader().
+			WithRowSeparator("-").
+			WithHeaderRowSeparator("-").
+			WithRightAlignment().
+			WithData(data).
+			Render()
 
 		return nil
 	},

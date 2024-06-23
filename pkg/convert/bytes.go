@@ -52,27 +52,43 @@ func Bytes(value uint64, unit string) (*ByteValues, error) {
 		b.KB = float64(value)
 		b.KiB = float64(value) * toKiB
 	case "MB", "mb":
+		b.KB = float64(value) * KBV
+		b.KiB = (float64(value) * toKiB) * KiBV
 	case "GB", "gb":
+		b.KB = float64(value) * KBV * KBV
+		b.KiB = (float64(value) * toKiB) * KiBV * KiBV
 	case "TB", "tb":
+		b.KB = float64(value) * KBV * KBV * KBV
+		b.KiB = (float64(value) * toKiB) * KiBV * KiBV * KiBV
 	case "PB", "pb":
+		b.KB = float64(value) * KBV * KBV * KBV * KBV
+		b.KiB = (float64(value) * toKiB) * KiBV * KiBV * KiBV * KiBV
 	case "KiB", "kib":
 		b.KB = float64(value) * toKB
 		b.KiB = float64(value)
 	case "MiB", "mib":
+		b.KB = (float64(value) * toKB) * KBV
+		b.KiB = float64(value) * KiBV
 	case "GiB", "gib":
+		b.KB = (float64(value) * toKB) * KBV * KBV
+		b.KiB = float64(value) * KiBV * KiBV
 	case "TiB", "tib":
+		b.KB = (float64(value) * toKB) * KBV * KBV * KBV
+		b.KiB = float64(value) * KiBV * KiBV * KiBV
 	case "PiB", "pib":
+		b.KB = (float64(value) * toKB) * KBV * KBV * KBV * KBV
+		b.KiB = float64(value) * KiBV * KiBV * KiBV * KiBV
 	}
 
-	b.MB = b.KB * KBV
-	b.GB = b.MB * KBV
-	b.TB = b.GB * KBV
-	b.PB = b.TB * KBV
+	b.MB = b.KB / KBV
+	b.GB = b.MB / KBV
+	b.TB = b.GB / KBV
+	b.PB = b.TB / KBV
 
-	b.MiB = b.KiB * KiBV
-	b.GiB = b.MiB * KiBV
-	b.TiB = b.GiB * KiBV
-	b.PiB = b.TiB * KiBV
+	b.MiB = b.KiB / KiBV
+	b.GiB = b.MiB / KiBV
+	b.TiB = b.GiB / KiBV
+	b.PiB = b.TiB / KiBV
 
 	return b, nil
 }
