@@ -40,7 +40,7 @@ func MakeFormatText(target formatTarget) *fyne.Container {
 	textOutput.SetMinRowsVisible(formatInputNumRows * 3)
 	textOutput.Wrapping = fyne.TextWrapBreak
 
-	textInput.OnSubmitted = func(newString string) {
+	formatBtn := widget.NewButton("Format", func() {
 		var (
 			result string
 			err    error
@@ -48,32 +48,20 @@ func MakeFormatText(target formatTarget) *fyne.Container {
 
 		switch target {
 		case FORMATJSON:
-			result, err = format.JSON(newString)
+			result, err = format.JSON(textInput.Text)
 		}
 
 		if err == nil {
 			textOutput.SetText(result)
 		}
-	}
-	textInput.OnChanged = func(newString string) {
-		var (
-			result string
-			err    error
-		)
-
-		switch target {
-		case FORMATJSON:
-			result, err = format.JSON(newString)
-		}
-
-		if err == nil {
-			textOutput.SetText(result)
-		}
-	}
+	})
 
 	encDecObj := container.New(layout.NewVBoxLayout(),
-		widget.NewLabel("JSON"), textInput,
-		widget.NewLabel("Formatted JSON"), textOutput,
+		widget.NewLabel("JSON"),
+		textInput,
+		formatBtn,
+		widget.NewLabel("Formatted JSON"),
+		textOutput,
 	)
 
 	return encDecObj
