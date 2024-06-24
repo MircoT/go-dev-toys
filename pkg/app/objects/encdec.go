@@ -147,7 +147,7 @@ func MakeEncDec(target encDecTarget) *fyne.Container {
 func MakeEncDecJWT() *fyne.Container {
 	textInput := widget.NewEntry()
 
-	textInput.SetPlaceHolder("JWT")
+	textInput.SetPlaceHolder("JWT token")
 	textInput.SetMinRowsVisible(encDecMinInputNumRows)
 
 	textInput.MultiLine = true
@@ -156,7 +156,7 @@ func MakeEncDecJWT() *fyne.Container {
 
 	textOutput := widget.NewEntry()
 
-	textInput.SetPlaceHolder("")
+	textOutput.SetPlaceHolder("Decoded JWT token")
 	textOutput.SetMinRowsVisible(encDecMinInputNumRows + encDecMinInputNumRows)
 
 	textOutput.MultiLine = true

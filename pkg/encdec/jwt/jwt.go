@@ -3,7 +3,7 @@ package jwt
 import (
 	"encoding/json"
 	"fmt"
-	"log"
+	"log/slog"
 
 	"github.com/golang-jwt/jwt"
 )
@@ -18,7 +18,9 @@ func Decode(input string) (string, error) {
 		return []byte{}, fmt.Errorf("no verify")
 	})
 	if err != nil && err.Error() != "no verify" {
-		log.Fatal(err)
+		slog.Error("cannot parse token", "error", err.Error())
+
+		return "", fmt.Errorf("cannot parse token: %w", err)
 	}
 
 	jwtOutput := JWTOutput{
