@@ -40,11 +40,13 @@ var bytesCmd = &cobra.Command{
 
 		data := pterm.TableData{
 			{"Unit", "Value"},
+			{"B", fmt.Sprintf("%0.2f", res.B)},
 			{"KB", fmt.Sprintf("%0.2f", res.KB)},
 			{"MB", fmt.Sprintf("%0.2f", res.MB)},
 			{"GB", fmt.Sprintf("%0.2f", res.GB)},
 			{"TB", fmt.Sprintf("%0.2f", res.TB)},
 			{"PB", fmt.Sprintf("%0.2f", res.PB)},
+			{"Bi", fmt.Sprintf("%0.2f", res.Bi)},
 			{"KiB", fmt.Sprintf("%0.2f", res.KiB)},
 			{"MiB", fmt.Sprintf("%0.2f", res.MiB)},
 			{"GiB", fmt.Sprintf("%0.2f", res.GiB)},
@@ -76,5 +78,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// bytesCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	bytesCmd.Flags().StringVar(&bytesUnit, "unit", "KiB", "Base unit of the source number")
+	bytesCmd.Flags().StringVar(&bytesUnit, "unit", "Bi", "Base unit of the source number")
 }

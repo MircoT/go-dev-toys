@@ -9,6 +9,8 @@ const (
 
 func isValidUnit(unit string) bool {
 	switch unit {
+	case "B", "b", "Bi", "BI", "bi":
+		return true
 	case "KB", "kb", "KiB", "kib":
 		return true
 	case "MB", "mb", "MiB", "mib":
@@ -25,11 +27,13 @@ func isValidUnit(unit string) bool {
 }
 
 type ByteValues struct {
+	Bi  float64
 	KiB float64
 	MiB float64
 	GiB float64
 	TiB float64
 	PiB float64
+	B   float64
 	KB  float64
 	MB  float64
 	GB  float64
@@ -45,43 +49,48 @@ func Bytes(value uint64, unit string) (*ByteValues, error) {
 	b := &ByteValues{}
 
 	switch unit {
+	case "B", "b", "BI", "Bi", "bi":
+		b.B = float64(value)
+		b.Bi = float64(value)
 	case "KB", "kb":
-		b.KB = float64(value)
-		b.KiB = (float64(value) * KBV) / KiBV
+		b.B = float64(value) * KBV
+		b.Bi = (float64(value) * KiBV * KiBV) / KBV
 	case "MB", "mb":
-		b.KB = float64(value) * KBV
-		b.KiB = (float64(value) * KBV * KBV) / KiBV
+		b.B = float64(value) * KBV * KBV
+		b.Bi = (float64(value) * KiBV * KiBV * KiBV) / KBV
 	case "GB", "gb":
-		b.KB = float64(value) * KBV * KBV
-		b.KiB = (float64(value) * KBV * KBV * KBV) / KiBV
+		b.B = float64(value) * KBV * KBV * KBV
+		b.Bi = (float64(value) * KiBV * KiBV * KiBV * KiBV) / KBV
 	case "TB", "tb":
-		b.KB = float64(value) * KBV * KBV * KBV
-		b.KiB = (float64(value) * KBV * KBV * KBV * KBV) / KiBV
+		b.B = float64(value) * KBV * KBV * KBV * KBV
+		b.Bi = (float64(value) * KiBV * KiBV * KiBV * KiBV * KiBV) / KBV
 	case "PB", "pb":
-		b.KB = float64(value) * KBV * KBV * KBV * KBV
-		b.KiB = (float64(value) * KBV * KBV * KBV * KBV * KBV) / KiBV
+		b.B = float64(value) * KBV * KBV * KBV * KBV * KBV
+		b.Bi = (float64(value) * KiBV * KiBV * KiBV * KiBV * KiBV * KiBV) / KBV
 	case "KiB", "kib":
-		b.KB = (float64(value) * KiBV) / KBV
-		b.KiB = float64(value)
+		b.B = (float64(value) * KBV * KBV) / KiBV
+		b.Bi = float64(value) * KiBV
 	case "MiB", "mib":
-		b.KB = (float64(value) * KiBV * KiBV) / KBV
-		b.KiB = float64(value) * KiBV
+		b.B = (float64(value) * KBV * KBV * KBV) / KiBV
+		b.Bi = float64(value) * KiBV * KiBV
 	case "GiB", "gib":
-		b.KB = (float64(value) * KiBV * KiBV * KiBV) / KBV
-		b.KiB = float64(value) * KiBV * KiBV
+		b.B = (float64(value) * KBV * KBV * KBV * KBV) / KiBV
+		b.Bi = float64(value) * KiBV * KiBV * KiBV
 	case "TiB", "tib":
-		b.KB = (float64(value) * KiBV * KiBV * KiBV * KiBV) / KBV
-		b.KiB = float64(value) * KiBV * KiBV * KiBV
+		b.B = (float64(value) * KBV * KBV * KBV * KBV * KBV) / KiBV
+		b.Bi = float64(value) * KiBV * KiBV * KiBV * KiBV
 	case "PiB", "pib":
-		b.KB = (float64(value) * KiBV * KiBV * KiBV * KiBV * KiBV) / KBV
-		b.KiB = float64(value) * KiBV * KiBV * KiBV * KiBV
+		b.B = (float64(value) * KBV * KBV * KBV * KBV * KBV * KBV) / KiBV
+		b.Bi = float64(value) * KiBV * KiBV * KiBV * KiBV * KiBV
 	}
 
+	b.KB = b.B / KBV
 	b.MB = b.KB / KBV
 	b.GB = b.MB / KBV
 	b.TB = b.GB / KBV
 	b.PB = b.TB / KBV
 
+	b.KiB = b.Bi / KiBV
 	b.MiB = b.KiB / KiBV
 	b.GiB = b.MiB / KiBV
 	b.TiB = b.GiB / KiBV

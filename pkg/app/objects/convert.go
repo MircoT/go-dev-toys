@@ -72,6 +72,10 @@ func MakeNumberConverter() *fyne.Container {
 }
 
 func MakeBytesConverter() *fyne.Container {
+	bInput := widget.NewEntry()
+	bInput.TextStyle.Monospace = true
+	bInput.SetPlaceHolder("b")
+
 	kbInput := widget.NewEntry()
 	kbInput.TextStyle.Monospace = true
 	kbInput.SetPlaceHolder("kb")
@@ -118,6 +122,8 @@ func MakeBytesConverter() *fyne.Container {
 		curString := "0"
 
 		switch targetUnit {
+		case "b":
+			curString = bInput.Text
 		case "kb":
 			curString = kbInput.Text
 		case "mb":
@@ -158,6 +164,10 @@ func MakeBytesConverter() *fyne.Container {
 		}
 	})
 
+	bInput.OnChanged = func(newString string) {
+		targetUnit = "b"
+	}
+
 	kbInput.OnChanged = func(newString string) {
 		targetUnit = "kb"
 	}
@@ -191,6 +201,7 @@ func MakeBytesConverter() *fyne.Container {
 	}
 
 	formatBytesObj := container.New(layout.NewVBoxLayout(),
+		widget.NewLabel("Bytes"), bInput,
 		container.NewGridWithColumns(2,
 			widget.NewLabel("KB"), widget.NewLabel("KiB"),
 			kbInput, kibInput,
